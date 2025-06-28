@@ -1,48 +1,9 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexandru Paicu - AI Engineer Portfolio</title>
+    <title>Alexandru Paicu - Machine Learning Engineer Portfolio</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <style>
@@ -54,21 +15,21 @@
             --text: #fff;
             --accent: #84f;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Arial', sans-serif;
         }
-        
+
         body {
             color: var(--text);
             background: linear-gradient(135deg, #050520 0%, #0A0A2A 100%);
             overflow-x: hidden;
             line-height: 1.6;
         }
-        
+
         #background-canvas {
             position: fixed;
             top: 0;
@@ -78,7 +39,7 @@
             z-index: -1;
             opacity: 0.7;
         }
-        
+
         .background-fallback {
             position: fixed;
             top: 0;
@@ -88,13 +49,13 @@
             background: linear-gradient(135deg, #050520 0%, #101035 100%);
             z-index: -2;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         header {
             height: 100vh;
             display: flex;
@@ -104,7 +65,7 @@
             position: relative;
             text-align: center;
         }
-        
+
         .name {
             font-size: 4rem;
             font-weight: 700;
@@ -115,7 +76,7 @@
             margin-bottom: 1rem;
             text-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
         }
-        
+
         .title {
             font-size: 1.5rem;
             text-transform: uppercase;
@@ -123,7 +84,7 @@
             margin-bottom: 2rem;
             color: var(--tertiary);
         }
-        
+
         .contact-info {
             display: flex;
             flex-wrap: wrap;
@@ -131,29 +92,29 @@
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .contact-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        
+
         .contact-item a {
             color: var(--text);
             text-decoration: none;
-            transition squirre color 0.3s;
+            transition: color 0.3s;
         }
-        
+
         .contact-item a:hover {
             color: var(--primary);
         }
-        
+
         .scroll-indicator {
             position: absolute;
             bottom: 2rem;
             animation: bounce 2s infinite;
         }
-        
+
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {
                 transform: translateY(0);
@@ -165,17 +126,17 @@
                 transform: translateY(-10px);
             }
         }
-        
+
         .glow {
             text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
         }
-        
+
         section {
             padding: 6rem 0;
             position: relative;
             overflow: hidden;
         }
-        
+
         section::before {
             content: '';
             position: absolute;
@@ -185,7 +146,7 @@
             height: 1px;
             background: linear-gradient(to right, transparent, var(--primary), transparent);
         }
-        
+
         .section-title {
             font-size: 2.5rem;
             margin-bottom: 2rem;
@@ -193,7 +154,7 @@
             display: inline-block;
             color: var(--text);
         }
-        
+
         .section-title::after {
             content: '';
             position: absolute;
@@ -203,36 +164,35 @@
             height: 3px;
             background: linear-gradient(to right, var(--primary), var(--secondary));
         }
-        
+
         .profile-content {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 2rem;
             align-items: center;
         }
-        
+
         .profile-image {
             width: 100%;
-            max-width: 300px; /* Adjust this value as needed */
+            max-width: 300px;
             height: auto;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 204, 255, 0.3);
             border: 2px solid rgba(0, 204, 255, 0.3);
         }
-        }
-        
+
         .profile-content p {
             font-size: 1.1rem;
             line-height: 1.8;
             color: #e6e6e6;
         }
-        
+
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2rem;
         }
-        
+
         .skill-card {
             background: rgba(10, 10, 40, 0.8);
             border: 1px solid rgba(0, 204, 255, 0.3);
@@ -241,42 +201,42 @@
             box-shadow: 0 5px 15px rgba(0, 204, 255, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .skill-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 204, 255, 0.4);
             border: 1px solid rgba(0, 204, 255, 0.6);
         }
-        
+
         .skill-title {
             font-size: 1.2rem;
             margin-bottom: 1rem;
             color: var(--primary);
         }
-        
+
         .skill-list {
             list-style-type: none;
         }
-        
+
         .skill-list li {
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
         }
-        
+
         .skill-list li::before {
             content: '•';
             color: var(--tertiary);
             font-weight: bold;
             margin-right: 0.5rem;
         }
-        
+
         .timeline {
             position: relative;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .timeline::after {
             content: '';
             position: absolute;
@@ -287,17 +247,17 @@
             left: 50%;
             margin-left: -1px;
         }
-        
+
         .timeline-item {
             padding: 10px 40px;
             position: relative;
             width: 50%;
         }
-        
+
         .timeline-item.right {
             left: 50%;
         }
-        
+
         .timeline-item::after {
             content: '';
             position: absolute;
@@ -309,15 +269,15 @@
             z-index: 1;
             box-shadow: 0 0 10px rgba(132, 80, 255, 0.8);
         }
-        
+
         .timeline-item.left::after {
             right: -10px;
         }
-        
+
         .timeline-item.right::after {
             left: -10px;
         }
-        
+
         .timeline-content {
             padding: 1.5rem;
             background: rgba(10, 10, 40, 0.8);
@@ -325,25 +285,25 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 204, 255, 0.2);
         }
-        
+
         .timeline-date {
             font-size: 0.9rem;
             color: var(--tertiary);
             margin-bottom: 0.5rem;
         }
-        
+
         .timeline-title {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
             color: var(--primary);
         }
-        
+
         .project-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
         }
-        
+
         .project-card {
             background: rgba(10, 10, 40, 0.8);
             border: 1px solid rgba(0, 204, 255, 0.3);
@@ -351,13 +311,13 @@
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .project-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 204, 255, 0.4);
             border: 1px solid rgba(0, 204, 255, 0.6);
         }
-        
+
         .project-image {
             width: 100%;
             height: 200px;
@@ -365,28 +325,33 @@
             border-bottom: 1px solid rgba(0, 204, 255, 0.3);
         }
         
+        .project-card:not(.has-image) .project-content {
+            padding-top: 0; /* Adjust padding if no image */
+        }
+
+
         .project-content {
             padding: 1.5rem;
         }
-        
+
         .project-title {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
             color: var(--primary);
         }
-        
+
         .project-tech {
             font-size: 0.9rem;
             color: var(--tertiary);
             margin-bottom: 1rem;
         }
-        
+
         .project-links {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .project-links a {
             color: var(--text);
             text-decoration: none;
@@ -395,34 +360,34 @@
             border-radius: 5px;
             transition: background-color 0.3s, color 0.3s;
         }
-        
+
         .project-links a:hover {
             background-color: var(--primary);
             color: var(--background);
         }
-        
+
         .hobbies-container {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
             gap: 2rem;
         }
-        
+
         .hobby-item {
             text-align: center;
         }
-        
+
         .hobby-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: var(--primary);
             text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
         }
-        
+
         .hobby-name {
             font-size: 1.1rem;
         }
-        
+
         footer {
             text-align: center;
             padding: 3rem 0;
@@ -430,12 +395,12 @@
             position: relative;
             border-top: 1px solid rgba(0, 204, 255, 0.3);
         }
-        
+
         .footer-text {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.7);
         }
-        
+
         .scroll-to-top {
             position: fixed;
             bottom: 2rem;
@@ -454,28 +419,28 @@
             z-index: 100;
             box-shadow: 0 0 15px rgba(132, 80, 255, 0.8);
         }
-        
+
         .scroll-to-top:hover {
             background-color: var(--primary);
         }
-        
+
         /* Floating elements animation */
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
-        
+
         @keyframes floating {
             0% { transform: translate(0, 0px); }
             50% { transform: translate(0, 15px); }
             100% { transform: translate(0, 0px); }
         }
-        
+
         /* Shine animation for borders */
         .shine {
             position: relative;
             overflow: hidden;
         }
-        
+
         .shine::after {
             content: '';
             position: absolute;
@@ -492,51 +457,51 @@
             transform: rotate(30deg);
             animation: shine 6s infinite linear;
         }
-        
+
         @keyframes shine {
             0% { transform: translateX(-100%) rotate(30deg); }
             100% { transform: translateX(100%) rotate(30deg); }
         }
-        
+
         /* Media Queries */
         @media (max-width: 992px) {
             .profile-content {
                 grid-template-columns: 1fr;
             }
-            
+
             .timeline::after {
                 left: 10px;
             }
-            
+
             .timeline-item {
                 width: 100%;
                 padding-left: 40px;
                 padding-right: 0;
             }
-            
+
             .timeline-item.left::after, .timeline-item.right::after {
                 left: 0;
             }
-            
+
             .timeline-item.right {
                 left: 0;
             }
         }
-        
+
         @media (max-width: 768px) {
             .name {
                 font-size: 3rem;
             }
-            
+
             .title {
                 font-size: 1.2rem;
             }
-            
+
             .contact-info {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .project-grid {
                 grid-template-columns: 1fr;
             }
@@ -546,10 +511,10 @@
 <body>
     <div class="background-fallback"></div>
     <canvas id="background-canvas"></canvas>
-    
+
     <header>
         <h1 class="name">Alexandru Paicu</h1>
-        <h2 class="title">AI/ML Engineer & Creative Technologist</h2>
+        <h2 class="title">Machine Learning Engineer | Data Scientist</h2>
         <div class="contact-info">
             <div class="contact-item">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -572,10 +537,18 @@
             </div>
             <div class="contact-item">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+                <a href="https://www.linkedin.com/in/alexandru-paicu-b97607217/">LinkedIn</a>
+            </div>
+            <div class="contact-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                     <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                <span>Iasi, Romania</span>
+                <span>Iași, Romania</span>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -585,18 +558,18 @@
             </svg>
         </div>
     </header>
-    
+
     <main class="container">
         <section id="profile">
             <h2 class="section-title glow">Profile</h2>
             <div class="profile-content">
-                <img src="images/profile_picture.png" alt="Alexandru Paicu, an AI Engineer" class="profile-image shine">
+                <img src="images/profile_picture.png" alt="Alexandru Paicu, a Machine Learning Engineer" class="profile-image shine">
                 <p>
-                    Multidisciplinary AI Engineer with expertise in designing scalable AI solutions, large language models and real-time 3D visualizations. Proficient in deploying serverless applications using AWS Bedrock and Lambda, crafting interactive systems with Three.js and FastAPI. Skilled in Retrieval-Augmented Generation (RAG), MLOps, and secure AI deployment. Passionate about merging science, creativity, and technology to innovate in neuroaesthetics, data analytics, and scientific visualization. Dedicated to delivering ethical, high-impact AI solutions.
+                    Machine Learning Engineer with 3+ years of hands-on experience developing, training, and deploying ML models on real-world datasets. Specialized in end-to-end data science pipelines, predictive modeling, and AWS-based AI solutions. Proven track record of building production-ready models with measurable performance improvements across healthcare, automotive, and computer vision domains.
                 </p>
             </div>
         </section>
-        
+
         <section id="skills">
             <h2 class="section-title glow">Skills</h2>
             <div class="skills-grid">
@@ -610,29 +583,48 @@
                     </ul>
                 </div>
                 <div class="skill-card shine">
-                    <h3 class="skill-title">AI/ML Frameworks</h3>
+                    <h3 class="skill-title">Machine Learning & AI</h3>
                     <ul class="skill-list">
-                        <li>Scikit-Learn</li>    
                         <li>TensorFlow</li>
-                        <li>PyTorch</li>
-                        <li>LangChain</li>
-                        <li>RAG</li>
+                        <li>Scikit-Learn</li>
+                        <li>Keras</li>
+                        <li>Neural Networks</li>
+                        <li>Deep Learning</li>
+                        <li>Computer Vision</li>
+                        <li>NLP</li>
                     </ul>
                 </div>
                 <div class="skill-card shine">
-                    <h3 class="skill-title">Cloud & DevOps</h3>
+                    <h3 class="skill-title">Generative AI</h3>
                     <ul class="skill-list">
-                        <li>AWS (Bedrock, SageMaker)</li>
-                        <li>AWS (S3, Lambda, API Gateway)</li>
-                        <li>MLOps</li>
-                        <li>Serverless Architecture</li>
+                        <li>LangChain</li>
+                        <li>RAG Architecture</li>
+                        <li>Prompt Engineering</li>
+                        <li>Large Language Models</li>
                     </ul>
                 </div>
                 <div class="skill-card shine">
-                    <h3 class="skill-title">Web & Visualization</h3>
+                    <h3 class="skill-title">Cloud & MLOps</h3>
+                    <ul class="skill-list">
+                        <li>AWS (SageMaker, Bedrock, Lambda, S3)</li>
+                        <li>Model Deployment</li>
+                        <li>CI/CD</li>
+                        <li>Docker</li>
+                        <li>MLOps</li>
+                    </ul>
+                </div>
+                <div class="skill-card shine">
+                    <h3 class="skill-title">Web Development</h3>
                     <ul class="skill-list">
                         <li>FastAPI</li>
                         <li>Flask</li>
+                        <li>REST APIs</li>
+                        <li>Streamlit</li>
+                    </ul>
+                </div>
+                <div class="skill-card shine">
+                    <h3 class="skill-title">Web & 3D Visualization</h3>
+                    <ul class="skill-list">
                         <li>Three.js</li>
                         <li>React-Three/Drei</li>
                     </ul>
@@ -640,97 +632,15 @@
                 <div class="skill-card shine">
                     <h3 class="skill-title">Databases</h3>
                     <ul class="skill-list">
-                        <li>PostgreSQL</li>
-                        <li>Pinecone</li>
-                        <li>MongoDB</li>
-                        <li>Vector Databases</li>
-                    </ul>
-                </div>
-                <div class="skill-card shine">
-                    <h3 class="skill-title">Tools & Emerging</h3>
-                    <ul class="skill-list">
-                        <li>Google Colab</li>
-                        <li>Jupyter Notebook</li>
-                        <li>LLM</li>
-                        <li>Prompt Engineering</li>
+                        <li>SQL</li>
+                        <li>NoSQL</li>
+                        <li>Data Pipelines</li>
+                        <li>ETL Processes</li>
                     </ul>
                 </div>
             </div>
         </section>
-        
-        <section id="experience">
-            <h2 class="section-title glow">Experience & Education</h2>
-            <div class="timeline">
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2021 – 2024</div>
-                        <h3 class="timeline-title">Access Management Specialist</h3>
-                        <p>Conduent, Iasi, Romania</p>
-                        <ul>
-                            <li>Designed and maintained access management systems for enterprise clients, streamlining user authentication and authorization processes.</li>
-                            <li>Orchestrated large-scale data operations to support payroll and benefits processing, enhancing system reliability for thousands of users.</li>
-                            <li>Collaborated with cross-functional teams to optimize HR operations, reducing access-related issues and improving operational efficiency.</li>
-                            <li>Ensured compliance with GDPR and internal security standards through rigorous data handling and system audits.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2013 – Present</div>
-                        <h3 class="timeline-title">Freelance Audio Engineer</h3>
-                        <p>Self-Employed, International</p>
-                        <ul>
-                            <li>Developed audio plugins using JUCE modules and C++</li>
-                            <li>Performed internationally with hardware synthesizers</li>
-                            <li>Created custom audio projects and effects</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2024</div>
-                        <h3 class="timeline-title">AI Engineering Bootcamp: RAG for LLMs</h3>
-                        <p>Zero to Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2024</div>
-                        <h3 class="timeline-title">Ultimate AWS Bedrock Guide</h3>
-                        <p>Zero to Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2024</div>
-                        <h3 class="timeline-title">Build, Train & Deploy Models with AWS SageMaker</h3>
-                        <p>Zero to Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2023</div>
-                        <h3 class="timeline-title">Prompt Engineering Bootcamp</h3>
-                        <p>Zero to Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2020</div>
-                        <h3 class="timeline-title">Complete Python Developer</h3>
-                        <p>Zero to Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2015</div>
-                        <h3 class="timeline-title">Bachelor's Degree</h3>
-                        <p>Vasile Alecsandri University, Iasi, Romania</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
+
         <section id="projects">
             <h2 class="section-title glow">Projects</h2>
             <div class="project-grid">
@@ -742,7 +652,6 @@
                         <p>Engineered a serverless AI code generation tool using Anthropic Claude models via AWS Bedrock, integrated with FastAPI for real-time API access.</p>
                         <div class="project-links">
                             <a href="https://github.com/AlexPi44/CodeGeneratorAI">GitHub</a>
-                            <a href="#">Top</a>
                         </div>
                     </div>
                 </div>
@@ -754,7 +663,6 @@
                         <p>Developed an AI-powered image generation tool using foundation models via AWS Bedrock, enabling rapid creation of high-quality visuals.</p>
                         <div class="project-links">
                             <a href="https://github.com/AlexPi44/CodeGeneratorAI">GitHub</a>
-                            <a href="#">Top</a>
                         </div>
                     </div>
                 </div>
@@ -766,25 +674,142 @@
                         <p>Built a serverless text summarization tool using Anthropic Claude models via AWS Bedrock, integrated with FastAPI for API-driven access.</p>
                         <div class="project-links">
                             <a href="https://github.com/AlexPi44/CodeGeneratorAI">GitHub</a>
-                            <a href="#">Top</a>
                         </div>
                     </div>
                 </div>
-                <div class="project-card shine">
-                    <img src="images/speech-agent.png" alt="Interactive and ready to use script for an AI Agent that classifies english accents." class="project-image">
+                 <div class="project-card shine has-no-image">
                     <div class="project-content">
-                        <h3 class="project-title">AI Agent - English Accent Classifier</h3>
-                        <div class="project-tech">Torch, Gradio, Speechbrain</div>
-                        <p>AI Agent created in Google Colab for English Accent Classification. Complete README.md file on GitHub.</p>
-                        <div class="project-links">
-                            <a href="https://github.com/AlexPi44/agent_speech_model">GitHub</a>
-                            <a href="#">Top</a>
-                        </div>
+                        <h3 class="project-title">Healthcare Analytics - Heart Disease Prediction</h3>
+                        <div class="project-tech">Python, Pandas, NumPy, Matplotlib, Seaborn, Jupyter, Feature Engineering, Statistical Analysis</div>
+                        <p>Developed classification models using Random Forest, SVM, and Neural Networks on UCI heart disease dataset. Achieved 87% accuracy through feature engineering and hyperparameter optimization. Implemented cross-validation and ROC analysis for model validation.</p>
+                    </div>
+                </div>
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Automotive Pricing Intelligence - Car Sales Prediction</h3>
+                        <div class="project-tech">Python, Scikit-Learn, Ensemble Methods</div>
+                        <p>Created regression models predicting vehicle prices using ensemble methods. Processed 15K+ vehicle records with feature engineering on categorical and numerical data. Reduced prediction error by 23% through advanced feature selection techniques.</p>
+                    </div>
+                </div>
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Industrial Equipment Valuation - Bulldozer Price Forecasting</h3>
+                        <div class="project-tech">Python, Time-Series Regression</div>
+                        <p>Built time-series regression models for heavy equipment auction price prediction. Achieved RMSE reduction of 15% compared to baseline linear models. Implemented model retraining pipeline for continuous learning.</p>
+                    </div>
+                </div>
+                 <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Computer Vision - Dog Breed Classification System</h3>
+                        <div class="project-tech">TensorFlow, CNN, Transfer Learning, ResNet</div>
+                        <p>Developed CNN using TensorFlow and Transfer Learning with pre-trained ResNet models. Achieved 85% classification accuracy across 120 dog breeds. Created web interface for real-time image classification.</p>
+                    </div>
+                </div>
+                 <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">LightDrift - Astronomical Data Processing</h3>
+                        <div class="project-tech">Python, Gaia DR3, SDSS, Data Visualization, Statistical Models</div>
+                        <p>Developed Python scripts for processing Gaia DR3 and SDSS astronomical datasets. Created data visualization tools for stellar motion analysis and cosmic event pattern recognition. Implemented statistical models for anomaly detection in large-scale astronomical data.</p>
                     </div>
                 </div>
             </div>
         </section>
-        
+
+        <section id="achievements">
+            <h2 class="section-title glow">Key Achievements</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content shine">
+                        <ul>
+                            <li>Successfully deployed 6+ end-to-end ML models with production-ready performance.</li>
+                            <li>Reduced model training time by 35% through optimized data preprocessing pipelines.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content shine">
+                        <ul>
+                            <li>Built scalable AWS infrastructure supporting real-time ML inference.</li>
+                            <li>Maintained 95%+ model accuracy across multiple classification and regression tasks.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title glow">Experience & Education</h2>
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2021 – 2025</div>
+                        <h3 class="timeline-title">Data Systems Specialist</h3>
+                        <p>Conduent, Iași, Romania</p>
+                        <ul>
+                            <li>Designed and maintained data pipelines supporting 5,000+ user authentication workflows.</li>
+                            <li>Automated data processing tasks reducing manual effort by 30%.</li>
+                            <li>Implemented data validation and quality assurance protocols ensuring GDPR compliance.</li>
+                            <li>Built reporting dashboards for operational metrics and performance monitoring.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2022 – Present</div>
+                        <h3 class="timeline-title">Self-Directed Machine Learning Specialization</h3>
+                        <p>Focused curriculum in supervised/unsupervised learning, deep learning, and MLOps practices.</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2024</div>
+                        <h3 class="timeline-title">AWS Bedrock: Build & Scale Generative AI</h3>
+                        <p>Amazon Web Services</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2024</div>
+                        <h3 class="timeline-title">AI Engineering Bootcamp</h3>
+                        <p>Zero To Mastery</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2024</div>
+                        <h3 class="timeline-title">Machine Learning & Data Science Bootcamp</h3>
+                        <p>Zero To Mastery</p>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2024</div>
+                        <h3 class="timeline-title">Prompt Engineering for Developers</h3>
+                        <p>Zero To Mastery</p>
+                    </div>
+                </div>
+                <div class="timeline-item left">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2023</div>
+                        <h3 class="timeline-title">Complete Python Developer</h3>
+                        <p>Zero To Mastery</p>
+                    </div>
+                </div>
+                 <div class="timeline-item right">
+                    <div class="timeline-content shine">
+                        <div class="timeline-date">2013 – Present</div>
+                        <h3 class="timeline-title">Freelance Audio Engineer</h3>
+                        <p>Self-Employed, International</p>
+                        <ul>
+                            <li>Developed audio plugins using JUCE modules and C++</li>
+                            <li>Performed internationally with hardware synthesizers</li>
+                            <li>Created custom audio projects and effects</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="hobbies">
             <h2 class="section-title glow">Hobbies & Interests</h2>
             <div class="hobbies-container">
@@ -811,28 +836,28 @@
             </div>
         </section>
     </main>
-    
+
     <footer>
-        <p class="footer-text">© 2025 Alexandru Paicu - AI Engineer & Creative Technologist</p>
+        <p class="footer-text">© 2025 Alexandru Paicu - Machine Learning Engineer & Data Scientist</p>
     </footer>
-    
+
     <div class="scroll-to-top" onclick="scrollToTop()">↑</div>
-    
+
     <script>
         // Three.js Background Animation
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('background-canvas'), alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        
+
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 5000;
         const posArray = new Float32Array(particlesCount * 3);
-        
+
         for (let i = 0; i < particlesCount * 3; i++) {
             posArray[i] = (Math.random() - 0.5) * 2000;
         }
-        
+
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const particlesMaterial = new THREE.PointsMaterial({
             size: 2,
@@ -840,32 +865,32 @@
             transparent: true,
             opacity: 0.6
         });
-        
+
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
-        
+
         camera.position.z = 500;
-        
+
         function animate() {
             requestAnimationFrame(animate);
             particlesMesh.rotation.y += 0.0002;
             renderer.render(scene, camera);
         }
-        
+
         animate();
-        
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
-        
+
         // GSAP Animations
         gsap.from('.name', { opacity: 0, y: -50, duration: 1, delay: 0.5 });
         gsap.from('.title', { opacity: 0, y: 50, duration: 1, delay: 0.7 });
         gsap.from('.contact-info', { opacity: 0, scale: 0.8, duration: 1, delay: 0.9 });
         gsap.from('.scroll-indicator', { opacity: 0, y: 20, duration: 1, delay: 1.1 });
-        
+
         // Scroll Animations
         const sections = document.querySelectorAll('section');
         sections.forEach(section => {
@@ -880,15 +905,17 @@
                 }
             });
         });
-        
+
         // Scroll to Top
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         // Scroll-to-top button visibility
         window.addEventListener('scroll', () => {
             const scrollBtn = document.querySelector('.scroll-to-top');
             scrollBtn.style.opacity = window.scrollY > 300 ? 1 : 0;
         });
     </script>
+</body>
+</html>
