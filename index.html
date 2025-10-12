@@ -326,9 +326,8 @@
         }
         
         .project-card:not(.has-image) .project-content {
-            padding-top: 0; /* Adjust padding if no image */
+            padding-top: 0;
         }
-
 
         .project-content {
             padding: 1.5rem;
@@ -424,7 +423,6 @@
             background-color: var(--primary);
         }
 
-        /* Floating elements animation */
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
@@ -435,7 +433,6 @@
             100% { transform: translate(0, 0px); }
         }
 
-        /* Shine animation for borders */
         .shine {
             position: relative;
             overflow: hidden;
@@ -463,7 +460,6 @@
             100% { transform: translateX(100%) rotate(30deg); }
         }
 
-        /* Media Queries */
         @media (max-width: 992px) {
             .profile-content {
                 grid-template-columns: 1fr;
@@ -642,112 +638,133 @@
         </section>
 
         <section id="projects">
-    <h2 class="section-title glow">Projects</h2>
-    <div class="project-grid">
-        <!-- 1) Housing Regression UI — Hugging Face demo (NEW, first) -->
-        <div class="project-card shine">
-            <img src="images/HousingUI.png" alt="Housing Regression UI demo screenshot" class="project-image" onerror="this.style.display='none'">
-            <div class="project-content">
-                <h3 class="project-title">Housing Regression UI — End-to-End</h3>
-                <div class="project-tech">XGBoost, Optuna, MLflow, FastAPI, Gradio, Docker, AWS</div>
-                <p>
-                    End-to-end housing-price regression pipeline built with production ML engineering best practices:
-                    time-aware splits, robust preprocessing & feature engineering, XGBoost baseline with Optuna tuning,
-                    MLflow experiment tracking and containerized deployment. Includes an interactive Gradio UI and a REST API,
-                    plus CI/CD and AWS-ready task definitions. Test predictions live on the hosted Hugging Face Space.
-                </p>
-                <div class="project-links">
-                    <a href="https://agalexiul-housing-regression-ui.hf.space" target="_blank" rel="noopener noreferrer">▶ Test on Hugging Face</a>
-                    <a href="https://github.com/AlexPi44/Regression_ML_EndtoEnd/blob/main/README.md" target="_blank" rel="noopener noreferrer">📄 Readme (project)</a>
+            <h2 class="section-title glow">Projects</h2>
+            <div class="project-grid">
+                <!-- 1) Sleep Disorder Risk Model -->
+                <div class="project-card shine">
+                    <img src="images/SleepRisk.png" alt="Sleep Disorder Risk Model UI screenshot" class="project-image" onerror="this.style.display='none'">
+                    <div class="project-content">
+                        <h3 class="project-title">Sleep Disorder Risk Model — End-to-End Classification</h3>
+                        <div class="project-tech">Random Forest, XGBoost, SHAP, Streamlit, NHANES Data</div>
+                        <p>
+                            Binary classification model predicting sleep disorder risk using NHANES survey data (2005-2016 cycles). 
+                            Engineered features from lifestyle and health variables including BMI, exercise, diet, sleep duration, and cardiovascular metrics. 
+                            Implemented baseline models (Logistic Regression, Random Forest, XGBoost) with hyperparameter tuning via GridSearch/Optuna. 
+                            Integrated SHAP explainability for global and local feature importance analysis and counterfactual recommendations. 
+                            Deployed with Streamlit UI for real-time risk prediction and personalized health recommendations.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://agalexiul-sleep-risk-model.hf.space/" target="_blank" rel="noopener noreferrer">▶ Test on Hugging Face</a>
+                            <a href="https://github.com/AlexPi44/sleep-risk-model/blob/main/README.md" target="_blank" rel="noopener noreferrer">📄 Readme (project)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2) Housing Regression UI -->
+                <div class="project-card shine">
+                    <img src="images/HousingUI.png" alt="Housing Regression UI demo screenshot" class="project-image" onerror="this.style.display='none'">
+                    <div class="project-content">
+                        <h3 class="project-title">Housing Regression UI — End-to-End</h3>
+                        <div class="project-tech">XGBoost, Optuna, MLflow, FastAPI, Gradio, Docker, AWS</div>
+                        <p>
+                            End-to-end housing-price regression pipeline built with production ML engineering best practices:
+                            time-aware splits, robust preprocessing & feature engineering, XGBoost baseline with Optuna tuning,
+                            MLflow experiment tracking and containerized deployment. Includes an interactive Gradio UI and a REST API,
+                            plus CI/CD and AWS-ready task definitions. Test predictions live on the hosted Hugging Face Space.
+                        </p>
+                        <div class="project-links">
+                            <a href="https://agalexiul-housing-regression-ui.hf.space" target="_blank" rel="noopener noreferrer">▶ Test on Hugging Face</a>
+                            <a href="https://github.com/AlexPi44/Regression_ML_EndtoEnd/blob/main/README.md" target="_blank" rel="noopener noreferrer">📄 Readme (project)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3) Code Generator AI -->
+                <div class="project-card shine">
+                    <img src="images/CodeGen.png" alt="Futuristic interface displaying AI-generated code snippets with neon blue and purple gradients" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Code Generator AI</h3>
+                        <div class="project-tech">AWS Bedrock, FastAPI, S3, Lambda</div>
+                        <p>Engineered a serverless AI code generation tool using Anthropic Claude models via AWS Bedrock, integrated with FastAPI for real-time API access.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/AlexPi44/CodeGeneratorAI" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4) Image Generation AI -->
+                <div class="project-card shine">
+                    <img src="images/ImageGen.png" alt="Vibrant AI-generated digital artwork with abstract patterns in neon cyan and magenta" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Image Generation AI</h3>
+                        <div class="project-tech">AWS Bedrock, FastAPI, S3</div>
+                        <p>Developed an AI-powered image generation tool using foundation models via AWS Bedrock, enabling rapid creation of high-quality visuals.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/AlexPi44/CodeGeneratorAI" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5) Summarization AI -->
+                <div class="project-card shine">
+                    <img src="images/Summarization.png" alt="Sleek text summarization dashboard with glowing text overlays and holographic effects" class="project-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Summarization AI</h3>
+                        <div class="project-tech">AWS Bedrock, FastAPI, S3, Lambda</div>
+                        <p>Built a serverless text summarization tool using Anthropic Claude models via AWS Bedrock, integrated with FastAPI for API-driven access.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/AlexPi44/CodeGeneratorAI" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6) Healthcare Analytics -->
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Healthcare Analytics - Heart Disease Prediction</h3>
+                        <div class="project-tech">Python, Pandas, NumPy, Matplotlib, Seaborn, Jupyter, Feature Engineering, Statistical Analysis</div>
+                        <p>Developed classification models using Random Forest, SVM, and Neural Networks on UCI heart disease dataset. Achieved 87% accuracy through feature engineering and hyperparameter optimization. Implemented cross-validation and ROC analysis for model validation.</p>
+                    </div>
+                </div>
+
+                <!-- 7) Automotive Pricing Intelligence -->
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Automotive Pricing Intelligence - Car Sales Prediction</h3>
+                        <div class="project-tech">Python, Scikit-Learn, Ensemble Methods</div>
+                        <p>Created regression models predicting vehicle prices using ensemble methods. Processed 15K+ vehicle records with feature engineering on categorical and numerical data. Reduced prediction error by 23% through advanced feature selection techniques.</p>
+                    </div>
+                </div>
+
+                <!-- 8) Industrial Equipment Valuation -->
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Industrial Equipment Valuation - Bulldozer Price Forecasting</h3>
+                        <div class="project-tech">Python, Time-Series Regression</div>
+                        <p>Built time-series regression models for heavy equipment auction price prediction. Achieved RMSE reduction of 15% compared to baseline linear models. Implemented model retraining pipeline for continuous learning.</p>
+                    </div>
+                </div>
+
+                <!-- 9) Computer Vision - Dog Breed Classification -->
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">Computer Vision - Dog Breed Classification System</h3>
+                        <div class="project-tech">TensorFlow, CNN, Transfer Learning, ResNet</div>
+                        <p>Developed CNN using TensorFlow and Transfer Learning with pre-trained ResNet models. Achieved 85% classification accuracy across 120 dog breeds. Created web interface for real-time image classification.</p>
+                    </div>
+                </div>
+
+                <!-- 10) LightDrift - Astronomical Data Processing -->
+                <div class="project-card shine has-no-image">
+                    <div class="project-content">
+                        <h3 class="project-title">LightDrift - Astronomical Data Processing</h3>
+                        <div class="project-tech">Python, Gaia DR3, SDSS, Data Visualization, Statistical Models</div>
+                        <p>Developed Python scripts for processing Gaia DR3 and SDSS astronomical datasets. Created data visualization tools for stellar motion analysis and cosmic event pattern recognition. Implemented statistical models for anomaly detection in large-scale astronomical data.</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 2) Code Generator AI -->
-        <div class="project-card shine">
-            <img src="images/CodeGen.png" alt="Futuristic interface displaying AI-generated code snippets with neon blue and purple gradients" class="project-image">
-            <div class="project-content">
-                <h3 class="project-title">Code Generator AI</h3>
-                <div class="project-tech">AWS Bedrock, FastAPI, S3, Lambda</div>
-                <p>Engineered a serverless AI code generation tool using Anthropic Claude models via AWS Bedrock, integrated with FastAPI for real-time API access.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AlexPi44/CodeGeneratorAI" target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3) Image Generation AI -->
-        <div class="project-card shine">
-            <img src="images/ImageGen.png" alt="Vibrant AI-generated digital artwork with abstract patterns in neon cyan and magenta" class="project-image">
-            <div class="project-content">
-                <h3 class="project-title">Image Generation AI</h3>
-                <div class="project-tech">AWS Bedrock, FastAPI, S3</div>
-                <p>Developed an AI-powered image generation tool using foundation models via AWS Bedrock, enabling rapid creation of high-quality visuals.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AlexPi44/CodeGeneratorAI" target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4) Summarization AI -->
-        <div class="project-card shine">
-            <img src="images/Summarization.png" alt="Sleek text summarization dashboard with glowing text overlays and holographic effects" class="project-image">
-            <div class="project-content">
-                <h3 class="project-title">Summarization AI</h3>
-                <div class="project-tech">AWS Bedrock, FastAPI, S3, Lambda</div>
-                <p>Built a serverless text summarization tool using Anthropic Claude models via AWS Bedrock, integrated with FastAPI for API-driven access.</p>
-                <div class="project-links">
-                    <a href="https://github.com/AlexPi44/CodeGeneratorAI" target="_blank" rel="noopener noreferrer">GitHub</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5) Healthcare Analytics -->
-        <div class="project-card shine has-no-image">
-            <div class="project-content">
-                <h3 class="project-title">Healthcare Analytics - Heart Disease Prediction</h3>
-                <div class="project-tech">Python, Pandas, NumPy, Matplotlib, Seaborn, Jupyter, Feature Engineering, Statistical Analysis</div>
-                <p>Developed classification models using Random Forest, SVM, and Neural Networks on UCI heart disease dataset. Achieved 87% accuracy through feature engineering and hyperparameter optimization. Implemented cross-validation and ROC analysis for model validation.</p>
-            </div>
-        </div>
-
-        <!-- 6) Automotive Pricing Intelligence -->
-        <div class="project-card shine has-no-image">
-            <div class="project-content">
-                <h3 class="project-title">Automotive Pricing Intelligence - Car Sales Prediction</h3>
-                <div class="project-tech">Python, Scikit-Learn, Ensemble Methods</div>
-                <p>Created regression models predicting vehicle prices using ensemble methods. Processed 15K+ vehicle records with feature engineering on categorical and numerical data. Reduced prediction error by 23% through advanced feature selection techniques.</p>
-            </div>
-        </div>
-
-        <!-- 7) Industrial Equipment Valuation -->
-        <div class="project-card shine has-no-image">
-            <div class="project-content">
-                <h3 class="project-title">Industrial Equipment Valuation - Bulldozer Price Forecasting</h3>
-                <div class="project-tech">Python, Time-Series Regression</div>
-                <p>Built time-series regression models for heavy equipment auction price prediction. Achieved RMSE reduction of 15% compared to baseline linear models. Implemented model retraining pipeline for continuous learning.</p>
-            </div>
-        </div>
-
-        <!-- 8) Computer Vision - Dog Breed Classification -->
-        <div class="project-card shine has-no-image">
-            <div class="project-content">
-                <h3 class="project-title">Computer Vision - Dog Breed Classification System</h3>
-                <div class="project-tech">TensorFlow, CNN, Transfer Learning, ResNet</div>
-                <p>Developed CNN using TensorFlow and Transfer Learning with pre-trained ResNet models. Achieved 85% classification accuracy across 120 dog breeds. Created web interface for real-time image classification.</p>
-            </div>
-        </div>
-
-        <!-- 9) LightDrift - Astronomical Data Processing -->
-        <div class="project-card shine has-no-image">
-            <div class="project-content">
-                <h3 class="project-title">LightDrift - Astronomical Data Processing</h3>
-                <div class="project-tech">Python, Gaia DR3, SDSS, Data Visualization, Statistical Models</div>
-                <p>Developed Python scripts for processing Gaia DR3 and SDSS astronomical datasets. Created data visualization tools for stellar motion analysis and cosmic event pattern recognition. Implemented statistical models for anomaly detection in large-scale astronomical data.</p>
-            </div>
-        </div>
-    </div>
-</section>
         <section id="achievements">
             <h2 class="section-title glow">Key Achievements</h2>
             <div class="timeline">
@@ -828,7 +845,7 @@
                         <p>Zero To Mastery</p>
                     </div>
                 </div>
-                 <div class="timeline-item right">
+                <div class="timeline-item right">
                     <div class="timeline-content shine">
                         <div class="timeline-date">2013 – Present</div>
                         <h3 class="timeline-title">Freelance Audio Engineer</h3>
