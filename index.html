@@ -16,568 +16,81 @@
             --accent: #84f;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Arial', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Arial', sans-serif; }
+        body { color: var(--text); background: linear-gradient(135deg, #050520 0%, #0A0A2A 100%); overflow-x: hidden; line-height: 1.6; }
 
-        body {
-            color: var(--text);
-            background: linear-gradient(135deg, #050520 0%, #0A0A2A 100%);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+        #background-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        #network-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .background-fallback { position: fixed; inset: 0; background: linear-gradient(135deg, #050520 0%, #101035 100%); z-index: -2; }
 
-        #background-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.7;
-        }
+        .cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(0,204,255,0.15) 0%, transparent 70%); pointer-events: none; transform: translate(-50%, -50%); z-index: 1; transition: opacity 0.3s; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
 
-        .background-fallback {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #050520 0%, #101035 100%);
-            z-index: -2;
-        }
+        header { height: 100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; text-align:center; }
+        .name { font-size: 4rem; font-weight:700; background: linear-gradient(45deg, var(--primary), var(--secondary), var(--tertiary)); background-size:200% 200%; -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:1rem; animation: gradientShift 6s ease infinite; filter: drop-shadow(0 0 20px rgba(0,204,255,0.5)); }
+        @keyframes gradientShift { 0%,100%{background-position:0% 50%}50%{background-position:100% 50%} }
+        .title { font-size:1.5rem; text-transform:uppercase; letter-spacing:3px; margin-bottom:2rem; color:var(--tertiary); position:relative; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .contact-info { display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; margin-bottom:2rem; }
+        .contact-item { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; background: rgba(10,10,40,0.5); border:1px solid rgba(0,204,255,0.3); border-radius:20px; backdrop-filter: blur(8px); }
+        .contact-item a { color:var(--text); text-decoration:none; }
 
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            text-align: center;
-        }
+        section { padding:6rem 0; position:relative; overflow:hidden; }
+        .section-title { font-size:2.5rem; margin-bottom:2rem; color:var(--text); display:inline-block; position:relative; }
+        .section-title::after { content:''; position:absolute; bottom:-10px; left:0; width:50%; height:3px; background: linear-gradient(to right, var(--primary), var(--secondary)); }
 
-        .name {
-            font-size: 4rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
-        }
+        .profile-content { display:grid; grid-template-columns:1fr 2fr; gap:2rem; align-items:center; }
+        .profile-image { width:100%; max-width:300px; border-radius:10px; box-shadow:0 10px 30px rgba(0,204,255,0.3); border:2px solid rgba(0,204,255,0.3); }
+        .skills-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:2rem; }
 
-        .title {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 2rem;
-            color: var(--tertiary);
-        }
+        .project-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(350px,1fr)); gap:2rem; }
+        .project-card { background: rgba(10,10,40,0.6); border:1px solid rgba(0,204,255,0.3); border-radius:10px; overflow:hidden; transition: all .3s; }
+        .project-image { width:100%; height:200px; object-fit:cover; border-bottom:1px solid rgba(0,204,255,0.3); }
+        .project-content { padding:1.5rem; display:flex; flex-direction:column; height:100%; }
 
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
+        footer { text-align:center; padding:3rem 0; background: rgba(5,5,32,0.8); position:relative; border-top:1px solid rgba(0,204,255,0.3); }
+        .footer-text { font-size:0.9rem; color: rgba(255,255,255,0.7); }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .scroll-to-top { position:fixed; bottom:2rem; right:2rem; width:50px; height:50px; background-color:var(--accent); color:var(--text); border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; transition: all .3s; z-index: 100; box-shadow: 0 0 15px rgba(132,80,255,0.8); opacity:0; }
 
-        .contact-item a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+        /* visual helpers kept from index (8).html */
+        .shine { position: relative; overflow: hidden; }
+        .shine::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%); transform: rotate(30deg); animation: shine 6s infinite linear; }
+        @keyframes shine { 0% { transform: translateX(-100%) rotate(30deg); } 100% { transform: translateX(100%) rotate(30deg); } }
 
-        .contact-item a:hover {
-            color: var(--primary);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .glow {
-            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-        }
-
-        section {
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--primary), transparent);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-            color: var(--text);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-
-        .profile-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .profile-image {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 204, 255, 0.3);
-            border: 2px solid rgba(0, 204, 255, 0.3);
-        }
-
-        .profile-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #e6e6e6;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background: rgba(10, 10, 40, 0.8);
-            border: 1px solid rgba(0, 204, 255, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 204, 255, 0.4);
-            border: 1px solid rgba(0, 204, 255, 0.6);
-        }
-
-        .skill-title {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .skill-list {
-            list-style-type: none;
-        }
-
-        .skill-list li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .skill-list li::before {
-            content: '•';
-            color: var(--tertiary);
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-
-        .timeline {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1px;
-        }
-
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-        }
-
-        .timeline-item.right {
-            left: 50%;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--accent);
-            border-radius: 50%;
-            top: 15px;
-            z-index: 1;
-            box-shadow: 0 0 10px rgba(132, 80, 255, 0.8);
-        }
-
-        .timeline-item.left::after {
-            right: -10px;
-        }
-
-        .timeline-item.right::after {
-            left: -10px;
-        }
-
-        .timeline-content {
-            padding: 1.5rem;
-            background: rgba(10, 10, 40, 0.8);
-            border: 1px solid rgba(0, 204, 255, 0.3);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.2);
-        }
-
-        .timeline-date {
-            font-size: 0.9rem;
-            color: var(--tertiary);
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: rgba(10, 10, 40, 0.8);
-            border: 1px solid rgba(0, 204, 255, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 204, 255, 0.4);
-            border: 1px solid rgba(0, 204, 255, 0.6);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 1px solid rgba(0, 204, 255, 0.3);
-        }
-        
-        .project-card:not(.has-image) .project-content {
-            padding-top: 0;
-        }
-
-        .project-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .project-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .project-tech {
-            font-size: 0.9rem;
-            color: var(--tertiary);
-            margin-bottom: 1rem;
-        }
-
-        .project-description {
-            flex-grow: 1;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            align-self: flex-start;
-        }
-
-        .project-links a {
-            color: var(--text);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--primary);
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .project-links a:hover {
-            background-color: var(--primary);
-            color: var(--background);
-        }
-
-        .hobbies-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .hobby-item {
-            text-align: center;
-        }
-
-        .hobby-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
-        }
-
-        .hobby-name {
-            font-size: 1.1rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 3rem 0;
-            background: rgba(5, 5, 32, 0.8);
-            position: relative;
-            border-top: 1px solid rgba(0, 204, 255, 0.3);
-        }
-
-        .footer-text {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .scroll-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background-color: var(--accent);
-            color: var(--text);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: opacity 0.3s;
-            font-size: 1.5rem;
-            z-index: 100;
-            box-shadow: 0 0 15px rgba(132, 80, 255, 0.8);
-        }
-
-        .scroll-to-top:hover {
-            background-color: var(--primary);
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0% { transform: translate(0, 0px); }
-            50% { transform: translate(0, 15px); }
-            100% { transform: translate(0, 0px); }
-        }
-
-        .shine {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shine::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: rotate(30deg);
-            animation: shine 6s infinite linear;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
-        }
-
-        @media (max-width: 992px) {
-            .profile-content {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline::after {
-                left: 10px;
-            }
-
-            .timeline-item {
-                width: 100%;
-                padding-left: 40px;
-                padding-right: 0;
-            }
-
-            .timeline-item.left::after, .timeline-item.right::after {
-                left: 0;
-            }
-
-            .timeline-item.right {
-                left: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .name {
-                font-size: 3rem;
-            }
-
-            .title {
-                font-size: 1.2rem;
-            }
-
-            .contact-info {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        @media (max-width:992px){ .profile-content{ grid-template-columns:1fr; } .cursor-glow, #network-canvas { display:none; } }
     </style>
 </head>
 <body>
     <div class="background-fallback"></div>
     <canvas id="background-canvas"></canvas>
+    <canvas id="network-canvas"></canvas>
+    <div class="cursor-glow"></div>
 
     <header>
         <h1 class="name">Alexandru Paicu</h1>
         <h2 class="title">Machine Learning Engineer | Data Scientist</h2>
         <div class="contact-info">
-            <div class="contact-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-                <a href="tel:+40743738398">+40 743 738 398</a>
-            </div>
-            <div class="contact-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-                <a href="mailto:paicualexandru44@gmail.com">paicualexandru44@gmail.com</a>
-            </div>
-            <div class="contact-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                </svg>
-                <a href="https://github.com/AlexPi44">GitHub</a>
-            </div>
-            <div class="contact-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                    <rect x="2" y="9" width="4" height="12"></rect>
-                    <circle cx="4" cy="4" r="2"></circle>
-                </svg>
-                <a href="https://www.linkedin.com/in/alexandru-p44/">LinkedIn</a>
-            </div>
-            <div class="contact-item">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <span>Iași, Romania</span>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 5v14"></path>
-                <path d="M19 12l-7 7-7-7"></path>
-            </svg>
+            <div class="contact-item"><a href="tel:+40743738398">+40 743 738 398</a></div>
+            <div class="contact-item"><a href="mailto:paicualexandru44@gmail.com">paicualexandru44@gmail.com</a></div>
+            <div class="contact-item"><a href="https://github.com/AlexPi44" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="contact-item"><a href="https://www.linkedin.com/in/alexandru-p44/" target="_blank" rel="noopener">LinkedIn</a></div>
         </div>
     </header>
 
     <main class="container">
         <section id="profile">
-            <h2 class="section-title glow">Profile</h2>
+            <h2 class="section-title">Profile</h2>
             <div class="profile-content">
-                <img src="images/profile_picture.png" alt="Alexandru Paicu, a Machine Learning Engineer" class="profile-image shine">
-                <p>
-                    Machine Learning Engineer with 5+ years of hands-on experience developing, training, and deploying ML models on real-world datasets. Specialized in end-to-end data science pipelines, predictive modeling, and AWS-based AI solutions. Proven track record of building production-ready models with measurable performance improvements across healthcare, automotive, and computer vision domains.
-                </p>
+                <img src="images/profile_picture.png" alt="Alexandru Paicu, a Machine Learning Engineer" class="profile-image">
+                <p>Machine Learning Engineer with 5+ years of hands-on experience developing, training, and deploying ML models on real-world datasets. Specialized in end-to-end data science pipelines, predictive modeling, and AWS-based AI solutions. Proven track record of building production-ready models with measurable performance improvements across healthcare, automotive, and computer vision domains.</p>
             </div>
         </section>
 
         <section id="skills">
-            <h2 class="section-title glow">Skills</h2>
+            <h2 class="section-title">Skills</h2>
             <div class="skills-grid">
-                <div class="skill-card shine">
+                <div class="skill-card">
                     <h3 class="skill-title">Programming</h3>
                     <ul class="skill-list">
                         <li>Python</li>
@@ -586,7 +99,7 @@
                         <li>C++</li>
                     </ul>
                 </div>
-                <div class="skill-card shine">
+                <div class="skill-card">
                     <h3 class="skill-title">Machine Learning & AI</h3>
                     <ul class="skill-list">
                         <li>TensorFlow</li>
@@ -598,16 +111,7 @@
                         <li>NLP</li>
                     </ul>
                 </div>
-                <div class="skill-card shine">
-                    <h3 class="skill-title">Generative AI</h3>
-                    <ul class="skill-list">
-                        <li>LangChain</li>
-                        <li>RAG Architecture</li>
-                        <li>Prompt Engineering</li>
-                        <li>Large Language Models</li>
-                    </ul>
-                </div>
-                <div class="skill-card shine">
+                <div class="skill-card">
                     <h3 class="skill-title">Cloud & MLOps</h3>
                     <ul class="skill-list">
                         <li>AWS (SageMaker, Bedrock, Lambda, S3)</li>
@@ -617,7 +121,7 @@
                         <li>MLOps</li>
                     </ul>
                 </div>
-                <div class="skill-card shine">
+                <div class="skill-card">
                     <h3 class="skill-title">Web Development</h3>
                     <ul class="skill-list">
                         <li>FastAPI</li>
@@ -626,14 +130,14 @@
                         <li>Streamlit</li>
                     </ul>
                 </div>
-                <div class="skill-card shine">
+                <div class="skill-card">
                     <h3 class="skill-title">Web & 3D Visualization</h3>
                     <ul class="skill-list">
                         <li>Three.js</li>
                         <li>React-Three/Drei</li>
                     </ul>
                 </div>
-                <div class="skill-card shine">
+                <div class="skill-card">
                     <h3 class="skill-title">Databases</h3>
                     <ul class="skill-list">
                         <li>SQL</li>
@@ -646,7 +150,7 @@
         </section>
 
         <section id="projects">
-            <h2 class="section-title glow">Projects</h2>
+            <h2 class="section-title">Projects</h2>
             <div class="project-grid">
                 <!-- 1) Sleep Disorder Risk Model -->
                 <div class="project-card shine">
@@ -691,13 +195,13 @@
                     </div>
                 </div>
 
-                <!-- 3) Healthcare Analytics -->
-                <div class="project-card shine has-no-image">
+                <!-- 3) Healthcare Analytics - Heart Disease Prediction -->
+                <div class="project-card shine">
                     <div class="project-content">
                         <h3 class="project-title">Healthcare Analytics - Heart Disease Prediction</h3>
-                        <div class="project-tech">Python, Pandas, NumPy, Matplotlib, Seaborn, Jupyter, Feature Engineering, Statistical Analysis</div>
+                        <div class="project-tech">Python, Pandas, NumPy, Matplotlib, Seaborn, Jupyter</div>
                         <div class="project-description">
-                            <p>Developed classification models using Random Forest, SVM, and Neural Networks on UCI heart disease dataset. Achieved 87% accuracy through feature engineering and hyperparameter optimization. Implemented cross-validation and ROC analysis for model validation.</p>
+                            <p>Developed classification models using Random Forest, SVM, and Neural Networks on UCI heart disease dataset. Achieved 87% accuracy through feature engineering and hyperparameter optimization.</p>
                         </div>
                     </div>
                 </div>
@@ -790,101 +294,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section id="achievements">
-            <h2 class="section-title glow">Key Achievements</h2>
-            <div class="timeline">
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <ul>
-                            <li>Successfully deployed 6+ end-to-end ML models with production-ready performance.</li>
-                            <li>Reduced model training time by 35% through optimized data preprocessing pipelines.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <ul>
-                            <li>Built scalable AWS infrastructure supporting real-time ML inference.</li>
-                            <li>Maintained 95%+ model accuracy across multiple classification and regression tasks.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience">
-            <h2 class="section-title glow">Experience & Education</h2>
-            <div class="timeline">
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2021 – 2025</div>
-                        <h3 class="timeline-title">Data Systems Specialist</h3>
-                        <p>Conduent, Iași, Romania</p>
-                        <ul>
-                            <li>Designed and maintained data pipelines supporting 5,000+ user authentication workflows.</li>
-                            <li>Automated data processing tasks reducing manual effort by 30%.</li>
-                            <li>Implemented data validation and quality assurance protocols ensuring GDPR compliance.</li>
-                            <li>Built reporting dashboards for operational metrics and performance monitoring.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2020 – Present</div>
-                        <h3 class="timeline-title">Self-Directed Machine Learning Specialization</h3>
-                        <p>Focused curriculum in supervised/unsupervised learning, deep learning, and MLOps practices.</p>
-                    </div>
-                </div>
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <h3 class="timeline-title">AWS Bedrock: Build & Scale Generative AI</h3>
-                        <p>Amazon Web Services</p>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <h3 class="timeline-title">AI Engineering Bootcamp</h3>
-                        <p>Zero To Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <h3 class="timeline-title">Machine Learning & Data Science Bootcamp</h3>
-                        <p>Zero To Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <h3 class="timeline-title">Prompt Engineering for Developers</h3>
-                        <p>Zero To Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item left">
-                    <div class="timeline-content shine">
-                        <h3 class="timeline-title">Complete Python Developer</h3>
-                        <p>Zero To Mastery</p>
-                    </div>
-                </div>
-                <div class="timeline-item right">
-                    <div class="timeline-content shine">
-                        <div class="timeline-date">2013 – Present</div>
-                        <h3 class="timeline-title">Freelance Audio Engineer</h3>
-                        <p>Self-Employed, International</p>
-                        <ul>
-                            <li>Developed audio plugins using JUCE modules and C++</li>
-                            <li>Performed internationally with hardware synthesizers</li>
-                            <li>Created custom audio projects and effects</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </section>
 
         <section id="hobbies">
-            <h2 class="section-title glow">Hobbies & Interests</h2>
+            <h2 class="section-title">Hobbies & Interests</h2>
             <div class="hobbies-container">
                 <div class="hobby-item floating">
                     <div class="hobby-icon">🔭</div>
@@ -908,6 +323,7 @@
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer>
@@ -917,78 +333,179 @@
     <div class="scroll-to-top" onclick="scrollToTop()">↑</div>
 
     <script>
-        // Three.js Background Animation
+        // Loading / progress (kept from new_index)
+        let loadProgress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const loadingScreen = document.getElementById('loadingScreen');
+        if (progressBar && loadingScreen) {
+            const loadingInterval = setInterval(() => {
+                loadProgress += Math.random() * 12;
+                if (loadProgress >= 100) {
+                    loadProgress = 100;
+                    progressBar.style.width = '100%';
+                    clearInterval(loadingInterval);
+                    setTimeout(() => { loadingScreen && loadingScreen.classList.add('hidden'); }, 350);
+                } else {
+                    progressBar.style.width = loadProgress + '%';
+                }
+            }, 180);
+        }
+
+        // THREE.JS scene (wave + stars) - wave shader kept from new_index, star system replaced with last_index's enhanced particle + shooting stars
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('background-canvas'), alpha: true });
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('background-canvas'), alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+        // Wave surface
+        const waveGeometry = new THREE.PlaneGeometry(2000, 2000, 128, 128);
+        const originalPositions = new Float32Array(waveGeometry.attributes.position.array.length);
+        for (let i=0;i<waveGeometry.attributes.position.array.length;i++) originalPositions[i] = waveGeometry.attributes.position.array[i];
+
+        const waveMaterial = new THREE.ShaderMaterial({
+            uniforms: { time: { value: 0 }, color1: { value: new THREE.Color(0x0099ff) }, color2: { value: new THREE.Color(0xff0099) }, color3: { value: new THREE.Color(0x00ffcc) } },
+            vertexShader: `
+                uniform float time; varying vec2 vUv; varying float vElevation; void main() {
+                    vUv = uv; vec3 pos = position;
+                    float wave1 = sin(pos.x * 0.02 + time * 0.5) * 15.0;
+                    float wave2 = sin(pos.y * 0.03 + time * 0.3) * 10.0;
+                    float wave3 = sin((pos.x + pos.y) * 0.01 + time * 0.7) * 20.0;
+                    pos.z += wave1 + wave2 + wave3; vElevation = pos.z;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 color1; uniform vec3 color2; uniform vec3 color3; uniform float time; varying vec2 vUv; varying float vElevation; void main(){
+                    float mixValue = (vElevation + 40.0) / 80.0; vec3 color = mix(color1,color2,mixValue); color = mix(color,color3, sin(time*0.5 + vUv.x * 3.14159) * 0.5 + 0.5); float alpha = 0.3 + (mixValue * 0.3); gl_FragColor = vec4(color, alpha);
+                }
+            `,
+            transparent: true, side: THREE.DoubleSide
+        });
+        const waveMesh = new THREE.Mesh(waveGeometry, waveMaterial);
+        waveMesh.rotation.x = -Math.PI/3;
+        scene.add(waveMesh);
+
+        // Enhanced particle system (stars) from last_index.html
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
+        const particlesCount = 3000;
         const posArray = new Float32Array(particlesCount * 3);
+        const colorArray = new Float32Array(particlesCount * 3);
+        const sizeArray = new Float32Array(particlesCount);
 
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 2000;
+        for (let i = 0; i < particlesCount * 3; i += 3) {
+            posArray[i] = (Math.random() - 0.5) * 1500;
+            posArray[i + 1] = (Math.random() - 0.5) * 1500;
+            posArray[i + 2] = (Math.random() - 0.5) * 1000;
+
+            const colorChoice = Math.random();
+            if (colorChoice < 0.33) { colorArray[i] = 0; colorArray[i+1] = 0.6; colorArray[i+2] = 1; }
+            else if (colorChoice < 0.66) { colorArray[i] = 1; colorArray[i+1] = 0; colorArray[i+2] = 0.6; }
+            else { colorArray[i] = 0; colorArray[i+1] = 1; colorArray[i+2] = 0.8; }
+
+            sizeArray[i/3] = Math.random() * 4 + 1;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 2,
-            color: 0x00ccff,
-            transparent: true,
-            opacity: 0.6
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+        particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
+
+        const particlesMaterial = new THREE.ShaderMaterial({
+            uniforms: { time: { value: 0 } },
+            vertexShader: `
+                attribute float size; attribute vec3 color; varying vec3 vColor; varying float vAlpha; uniform float time; void main(){
+                    vColor = color; vec3 pos = position;
+                    float twinkle = sin(time * 2.0 + pos.x * 0.1 + pos.y * 0.1) * 0.5 + 0.5; vAlpha = twinkle * 0.8 + 0.2;
+                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                    gl_PointSize = size * (300.0 / -mvPosition.z) * twinkle;
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying vec3 vColor; varying float vAlpha; void main(){
+                    float dist = length(gl_PointCoord - vec2(0.5)); if (dist > 0.5) discard; float strength = 1.0 - (dist * 2.0); strength = pow(strength, 3.0); gl_FragColor = vec4(vColor, strength * vAlpha);
+                }
+            `,
+            transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
         });
 
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
 
-        camera.position.z = 500;
+        camera.position.z = 500; camera.position.y = 100;
 
-        function animate() {
+        // Network canvas (2D) - shooting stars and subtle node connections from last_index.html
+        const networkCanvas = document.getElementById('network-canvas');
+        const networkCtx = networkCanvas.getContext('2d');
+        networkCanvas.width = window.innerWidth; networkCanvas.height = window.innerHeight;
+
+        const networkNodes = [];
+        for (let i=0;i<40;i++){ networkNodes.push({ x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4, r: Math.random()*2+1, update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>window.innerWidth) this.vx*=-1; if(this.y<0||this.y>window.innerHeight) this.vy*=-1; }, draw(){ networkCtx.beginPath(); networkCtx.arc(this.x,this.y,this.r,0,Math.PI*2); networkCtx.fillStyle='rgba(0,204,255,0.6)'; networkCtx.fill(); } }); }
+
+        function drawConnections(){
+            for (let i=0;i<networkNodes.length;i++){
+                for (let j=i+1;j<networkNodes.length;j++){
+                    const dx = networkNodes[i].x - networkNodes[j].x; const dy = networkNodes[i].y - networkNodes[j].y; const distance = Math.sqrt(dx*dx+dy*dy);
+                    const maxDistance = 160;
+                    if (distance < maxDistance){
+                        const opacity = (1 - distance / maxDistance) * 0.25;
+                        const gradient = networkCtx.createLinearGradient(networkNodes[i].x, networkNodes[i].y, networkNodes[j].x, networkNodes[j].y);
+                        gradient.addColorStop(0, `rgba(0,204,255,${opacity})`);
+                        gradient.addColorStop(0.5, `rgba(255,0,204,${opacity*0.6})`);
+                        gradient.addColorStop(1, `rgba(0,255,204,${opacity})`);
+                        networkCtx.beginPath(); networkCtx.moveTo(networkNodes[i].x, networkNodes[i].y); networkCtx.lineTo(networkNodes[j].x, networkNodes[j].y); networkCtx.strokeStyle = gradient; networkCtx.lineWidth = 1; networkCtx.stroke();
+                    }
+                }
+            }
+        }
+
+        class ShootingStar{ constructor(){ this.reset(); } reset(){ this.x = Math.random()*window.innerWidth; this.y = -50; this.length = Math.random()*80+40; this.speed = Math.random()*15+10; this.opacity = Math.random()*0.5+0.5; this.angle = Math.PI/4 + (Math.random()-0.5)*0.5; } update(){ this.x += Math.cos(this.angle)*this.speed; this.y += Math.sin(this.angle)*this.speed; if (this.y > window.innerHeight + 50 || this.x > window.innerWidth + 50) this.reset(); } }
+        const shootingStars = []; for (let i=0;i<3;i++) shootingStars.push(new ShootingStar());
+
+        function animateNetwork(){
+            networkCtx.clearRect(0,0,networkCanvas.width,networkCanvas.height);
+            shootingStars.forEach(star=>{ star.update(); const gradient = networkCtx.createLinearGradient(star.x, star.y, star.x - Math.cos(star.angle) * star.length, star.y - Math.sin(star.angle) * star.length); gradient.addColorStop(0, `rgba(255,255,255,${star.opacity})`); gradient.addColorStop(0.5, `rgba(0,204,255,${star.opacity*0.6})`); gradient.addColorStop(1, 'rgba(0,204,255,0)'); networkCtx.beginPath(); networkCtx.moveTo(star.x, star.y); networkCtx.lineTo(star.x - Math.cos(star.angle) * star.length, star.y - Math.sin(star.angle) * star.length); networkCtx.strokeStyle = gradient; networkCtx.lineWidth = 2; networkCtx.stroke(); networkCtx.beginPath(); networkCtx.arc(star.x, star.y, 3, 0, Math.PI*2); networkCtx.fillStyle = `rgba(255,255,255,${star.opacity})`; networkCtx.shadowBlur = 15; networkCtx.shadowColor = 'rgba(0,204,255,1)'; networkCtx.fill(); networkCtx.shadowBlur = 0; });
+            drawConnections(); networkNodes.forEach(n=>{ n.update(); n.draw(); }); requestAnimationFrame(animateNetwork);
+        }
+        animateNetwork();
+
+        // Mouse interaction and parallax
+        let mouseX=0, mouseY=0, targetX=0, targetY=0; document.addEventListener('mousemove',(e)=>{ mouseX = (e.clientX / window.innerWidth) * 2 - 1; mouseY = -(e.clientY / window.innerHeight) * 2 + 1; const cursorGlow = document.querySelector('.cursor-glow'); if(cursorGlow){ cursorGlow.style.left = e.clientX + 'px'; cursorGlow.style.top = e.clientY + 'px'; } });
+
+        // Animation loop
+        let t = 0;
+        function animate(){
             requestAnimationFrame(animate);
-            particlesMesh.rotation.y += 0.0002;
+            t += 0.01;
+            waveMaterial.uniforms.time.value = t;
+            particlesMaterial.uniforms.time.value = t;
+
+            targetX = mouseX * 100; targetY = mouseY * 50;
+            camera.position.x += (targetX - camera.position.x) * 0.05;
+            camera.position.y += (100 + targetY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            particlesMesh.rotation.y += 0.0003; particlesMesh.rotation.x = Math.sin(t * 0.2) * 0.05;
+            waveMesh.rotation.z = Math.sin(t * 0.2) * 0.08;
+
             renderer.render(scene, camera);
         }
-
         animate();
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        // GSAP UI animations (kept from new_index)
+        gsap.from('.name', { opacity: 0, y: -40, duration: 1, delay: 0.4 });
+        gsap.from('.title', { opacity: 0, y: 30, duration: 1, delay: 0.6 });
+        gsap.from('.contact-item', { opacity: 0, y: 10, duration: 0.8, stagger: 0.08, delay: 0.9 });
 
-        // GSAP Animations
-        gsap.from('.name', { opacity: 0, y: -50, duration: 1, delay: 0.5 });
-        gsap.from('.title', { opacity: 0, y: 50, duration: 1, delay: 0.7 });
-        gsap.from('.contact-info', { opacity: 0, scale: 0.8, duration: 1, delay: 0.9 });
-        gsap.from('.scroll-indicator', { opacity: 0, y: 20, duration: 1, delay: 1.1 });
+        // Scroll to top
+        function scrollToTop(){ window.scrollTo({ top:0, behavior:'smooth' }); }
+        window.addEventListener('scroll', ()=>{ document.querySelector('.scroll-to-top').style.opacity = window.scrollY > 300 ? 1 : 0; });
 
-        // Scroll Animations
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-            gsap.from(section, {
-                opacity: 0,
-                y: 100,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: section,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none'
-                }
-            });
-        });
+        // Resize handling
+        window.addEventListener('resize', ()=>{ camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); networkCanvas.width = window.innerWidth; networkCanvas.height = window.innerHeight; });
 
-        // Scroll to Top
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Scroll-to-top button visibility
-        window.addEventListener('scroll', () => {
-            const scrollBtn = document.querySelector('.scroll-to-top');
-            scrollBtn.style.opacity = window.scrollY > 300 ? 1 : 0;
-        });
+        // Reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { renderer.setAnimationLoop(null); }
     </script>
 </body>
 </html>
