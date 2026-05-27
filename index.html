@@ -374,16 +374,15 @@
                 </div>
 
                 <div class="project-card">
-                    <img src="images/SuperCreatorAgent.png" alt="Super Creator Agent UI screenshot" class="project-image" onerror="this.style.display='none'">
+                    <img src="images/Hybrid RAG.png" alt="Super Creator Agent UI screenshot" class="project-image" onerror="this.style.display='none'">
                     <div class="project-content">
-                        <h3 class="project-title">Super Creator Agent – AI Coding Assistant with Self-Healing</h3>
-                        <div class="project-tech">LangGraph, Qwen2.5-Coder, RAG 2.0, FlashRank, ReWOO, RAPTOR, Ollama</div>
+                        <h3 class="project-title">Hybrid RAG - Document Parsing and Retrieval System</h3>
+                        <div class="project-tech">A system for parsing documents and retrieving relevant information using Hybrid Dense + BM25 → RRF → CrossEncoder rerank.</div>
                         <div class="project-description">
-                            <p>Autonomous code generation system with self-healing capabilities using dual-model architecture (3B/7B Qwen2.5-Coder). Implements LangGraph state machine orchestrating ReWOO planning framework (Planner-Worker-Solver). Features advanced RAG 2.0 pipeline with RAPTOR hierarchical indexing, HyDE hypothetical document generation, MultiQuery expansion, and FlashRank cross-encoder reranking. Includes iterative self-correction loop: Generate → Execute → Reflect → Fix (max 3 iterations). Supports document upload for context-aware code generation. Built with async Gradio streaming interface and ChromaDB vector store with BGE-base-en-v1.5 embeddings.</p>
+                            <p>The Qdrant-Docling-RAG system is designed for efficient document parsing and information retrieval. It utilizes Docling DocumentConverter for parsing various document formats (PDF, DOCX, PPTX, HTML, Markdown, TXT) into manageable chunks. The system employs a retrieval mechanism that reranks candidates based on their relevance to the query. Furthermore, it optimizes the order of chunks for better contextual understanding. The system also features query rewriting capabilities via NVIDIA NIM to enhance dense retrieval. This multifaceted approach enables the system to provide accurate and relevant results.</p>
                         </div>
                         <div class="project-links">
-                            <a href="https://huggingface.co/spaces/agalexiul/super-creator-agent" target="_blank" rel="noopener noreferrer">▶ Test on Hugging Face</a>
-                            <a href="https://github.com/AlexPi44/own-RAG-system" target="_blank" rel="noopener noreferrer">📄 Readme </a>
+                            <a href="https://huggingface.co/spaces/agalexiul/Qdrant-Docling-RAG-v2" target="_blank" rel="noopener noreferrer">▶ Test on Hugging Face</a>
                         </div>
                     </div>
                 </div>
