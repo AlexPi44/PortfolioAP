@@ -335,12 +335,21 @@
                         <h3 class="project-title">RAG • Llama 4 Maverick via NVIDIA NIM</h3>
                         <div class="project-tech">Docling multi-format parsing + Qdrant + NVIDIA NIM</div>
                         <div class="project-description">
-                            <p>This project showcases a working RAG application created on HF, using Docling for multi document parsing, Qdrant as our VectorDB and with an already set NVIDIA API for the LLM - Llama 4 Maverick.
-                            Parsing:    Docling DocumentConverter — PDF, DOCX, PPTX, HTML, Markdown, TXT
-                            Chunking:   Docling HybridChunker — structure-aware, tokenization-bounded
-                            Embedding:  sentence-transformers/all-MiniLM-L6-v2 (local, loaded once)
-                            Retrieval:  Qdrant in-memory — direct cosine search, no subprocess overhead
-                            Generation: NVIDIA NIM — meta/llama-4-maverick (OpenAI-compatible, free tier)</p>
+                            <p>
+                                This project showcases a working RAG application created on HF,
+                                using Docling for multi document parsing, Qdrant as our VectorDB
+                                and with an already set NVIDIA API for the LLM - Llama 4 Maverick.
+                            </p>
+                        
+                            <p><strong>Parsing:</strong> Docling DocumentConverter — PDF, DOCX, PPTX, HTML, Markdown, TXT</p>
+                        
+                            <p><strong>Chunking:</strong> Docling HybridChunker — structure-aware, tokenization-bounded</p>
+                        
+                            <p><strong>Embedding:</strong> sentence-transformers/all-MiniLM-L6-v2 (local, loaded once)</p>
+                        
+                            <p><strong>Retrieval:</strong> Qdrant in-memory — direct cosine search, no subprocess overhead</p>
+                        
+                            <p><strong>Generation:</strong> NVIDIA NIM — meta/llama-4-maverick</p>
                         </div>
                         <div class="project-links">
                             <a href="https://huggingface.co/spaces/agalexiul/Qdrant-Docling-RAG" target="_blank" rel="noopener noreferrer">▶ Test on Hugging Face</a>
